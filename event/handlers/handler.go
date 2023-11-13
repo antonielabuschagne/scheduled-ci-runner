@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/antonielabuschagne/event-triggered-jenkins-build/interfaces"
 	"github.com/aws/aws-lambda-go/events"
+	"go.uber.org/zap"
 
 	"github.com/joerdav/zapray"
 )
@@ -24,8 +24,7 @@ func NewEventHandler(log *zapray.Logger, j interfaces.IJobRunner) *EventHandler 
 }
 
 func (eh EventHandler) Handle(ctx context.Context, e interface{}) (events.APIGatewayV2HTTPResponse, error) {
-	eh.Log.Info("Handler triggered")
-	eh.Log.Info(fmt.Sprintf("%+v", e))
+	eh.Log.Info("Handler triggered", zap.Any("event", e))
 	err := eh.JobRunner.RunBuild()
 	if err != nil {
 		eh.Log.Error(err.Error())
