@@ -9,7 +9,7 @@ import (
 	"github.com/joerdav/zapray"
 )
 
-func TestXxx(t *testing.T) {
+func TestRunBuild(t *testing.T) {
 	logger, err := zapray.NewDevelopment()
 	if err != nil {
 		panic(err)
