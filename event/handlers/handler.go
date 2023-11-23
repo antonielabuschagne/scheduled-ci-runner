@@ -12,20 +12,20 @@ import (
 )
 
 type EventHandler struct {
-	Log       *zapray.Logger
-	JobRunner interfaces.IJobRunner
+	Log        *zapray.Logger
+	JobBuilder interfaces.JobBuilder
 }
 
-func NewEventHandler(log *zapray.Logger, j interfaces.IJobRunner) *EventHandler {
+func NewEventHandler(log *zapray.Logger, j interfaces.JobBuilder) *EventHandler {
 	return &EventHandler{
-		Log:       log,
-		JobRunner: j,
+		Log:        log,
+		JobBuilder: j,
 	}
 }
 
 func (eh EventHandler) Handle(ctx context.Context, e interface{}) (events.APIGatewayV2HTTPResponse, error) {
 	eh.Log.Info("Handler triggered", zap.Any("event", e))
-	err := eh.JobRunner.RunBuild()
+	err := eh.JobBuilder.Build()
 	if err != nil {
 		eh.Log.Error(err.Error())
 		return events.APIGatewayV2HTTPResponse{StatusCode: http.StatusInternalServerError}, nil

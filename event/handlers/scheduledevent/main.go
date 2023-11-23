@@ -30,8 +30,8 @@ func main() {
 		log.Fatal("missing JENKINS_JOB_ENDPOINT")
 	}
 
-	jjb := jenkins.NewJobRunner(log, jenkinsApiUser, jenkinsApiToken, jenkinsBuildEndpoint)
-	eh := handlers.NewEventHandler(log, jjb)
+	jj := jenkins.NewJenkinsJob(log, jenkinsApiUser, jenkinsApiToken, jenkinsBuildEndpoint)
+	eh := handlers.NewEventHandler(log, jj)
 
 	lambda.Start(eh.Handle)
 }

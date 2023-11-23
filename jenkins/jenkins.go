@@ -12,14 +12,14 @@ import (
 	"github.com/joerdav/zapray"
 )
 
-type JobRunner struct {
+type JenkinsJob struct {
 	Log                  *zapray.Logger
 	JenkinsApiToken      string
 	JenkinsApiUser       string
 	JenkinsBuildEndpoint string
 }
 
-func NewJobRunner(log *zapray.Logger, user string, token string, endpoint string) (j JobRunner) {
+func NewJenkinsJob(log *zapray.Logger, user string, token string, endpoint string) (j JenkinsJob) {
 	j.JenkinsApiUser = user
 	j.JenkinsApiToken = token
 	j.JenkinsBuildEndpoint = endpoint
@@ -27,8 +27,8 @@ func NewJobRunner(log *zapray.Logger, user string, token string, endpoint string
 	return
 }
 
-func (j JobRunner) RunBuild() (err error) {
-	j.Log.Info("Running build")
+func (j JenkinsJob) Build() (err error) {
+	j.Log.Info("Building Jenkins job")
 	endpoint, err := j.buildEndpoint()
 	if err != nil {
 		return
@@ -54,7 +54,7 @@ func (j JobRunner) RunBuild() (err error) {
 	return
 }
 
-func (j JobRunner) buildEndpoint() (string, error) {
+func (j JenkinsJob) buildEndpoint() (string, error) {
 	endpoint, err := url.Parse(j.JenkinsBuildEndpoint + "/build")
 	if err != nil {
 		return "", err

@@ -1,5 +1,5 @@
 package interfaces
 
-type IJobRunner interface {
-	RunBuild() (err error)
+type JobBuilder interface {
+	Build() (err error)
 }

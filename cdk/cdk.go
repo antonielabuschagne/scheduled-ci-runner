@@ -59,6 +59,11 @@ func NewCDKStack(scope constructs.Construct, cdkProps CDKStackProps) awscdk.Stac
 			awseventstargets.NewLambdaFunction(eventHandler, &awseventstargets.LambdaFunctionProps{}),
 		},
 	})
+
+	awscdk.NewCfnOutput(stack, aws.String("eventHandlerLogGroup"), &awscdk.CfnOutputProps{
+		Value:       eventHandler.LogGroup().LogGroupName(),
+		Description: aws.String("eventHandlerLogGroup"),
+	})
 	return stack
 }
 
